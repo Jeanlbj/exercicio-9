@@ -10,7 +10,7 @@ class Ocorrencia:
         self.__funcionario = []
 
     def setDataOcorencia(self, dataOcorrencia):
-        self.__dataOcorencia = datetime.strptime(dataOcorrencia, "%d/%m/%y")
+        self.__dataOcorencia = datetime.strptime(dataOcorrencia, "%d/%m/%Y")
 
     def getDataOcorrencia(self):
         return self.__dataOcorencia

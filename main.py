@@ -2,7 +2,6 @@ from Model.Funcionario import Funcionario
 from Model.Cargo import Cargo
 from Model.Dependente import Dependente
 from Model.Ocorrencia import Ocorrencia
-from datetime import datetime
 
 if __name__ == "__main__":
 
@@ -20,14 +19,14 @@ if __name__ == "__main__":
 
     dependente1 = Dependente()
     dependente1.setNome("Lucas")
-    dependente1.setDataNascimento("25/4/2020")
+    dependente1.setDataNascimento("25/04/2015")
 
     # Criando Ocorrencia
 
     ocorrencia1 = Ocorrencia()
-    ocorrencia1.setDataOcorencia("25/10/23")
+    ocorrencia1.setDataOcorencia("25/10/2023")
     ocorrencia1.setValorAcrescimo(1000)
-    ocorrencia1.setDataOcorencia(500)
+    ocorrencia1.setValorDesconto(500)
     ocorrencia1.addHistoricoOcorrencia("Aumento né pai")
 
     # Criando amarrações entre Funcionario/Cargo
@@ -47,3 +46,9 @@ if __name__ == "__main__":
     funcionario1.addOcorencia(ocorrencia1)
 
     ocorrencia1.addFuncionario(funcionario1)
+
+    print(funcionario1.toStrFuncionario(10, 2023))
+
+    print()
+    
+    print(funcionario1.toStrDependente())
