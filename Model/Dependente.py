@@ -10,7 +10,7 @@ class Dependente(Pessoa): # Classe filha
         self.__funcionario = ""
 
     def setDataNascimento(self, dataNascimento):
-        self.__dataNascimento = datetime.strptime(dataNascimento, "%d/%m/%y")
+        self.__dataNascimento = datetime.strptime(str(dataNascimento), "%d/%m/%y")
 
     def getDataNascimento(self):
         return self.__dataNascimento
