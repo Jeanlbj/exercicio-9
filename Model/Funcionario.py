@@ -79,6 +79,7 @@ class Funcionario(Pessoa):  # Classe filha
               f"\nSalário Liquido: {self.calcularSalarioLiquido(mes, ano)}\n"
               f"\nDependentes:")
         for dependente in range(len(self.listarDependente())):
-            print(f"Dependente {dependente + 1}: {self.listarDependente()[dependente].getNome()}"
+            print(f"Dependente {dependente + 1}:"
+                  f"\nNome: {self.listarDependente()[dependente].getNome()}"
                   f"\nData de Nascimento: {self.listarDependente()[dependente].strDataNascimento()}"
                   f"\n{self.__proximoAniversario()}\n")
