@@ -1,7 +1,8 @@
 from Model.Pessoa import Pessoa
-from datetime import date
+from datetime import datetime
 
-class Funcionario(Pessoa): # Classe filha
+
+class Funcionario(Pessoa):  # Classe filha
 
     def __init__(self):
         super().__init__()
@@ -39,36 +40,45 @@ class Funcionario(Pessoa): # Classe filha
         for ocorrencia in range(len(self.listarOcorrencia())):
             if ano == self.listarOcorrencia()[ocorrencia].getDataOcorrencia().year:
                 if mes == self.listarOcorrencia()[ocorrencia].getDataOcorrencia().month:
-                    return self.__ocorrencia[ocorrencia].getValorAcrescimo() - self.__ocorrencia[ocorrencia].getValorDesconto()
+                    return self.__ocorrencia[ocorrencia].getValorAcrescimo() - self.__ocorrencia[
+                        ocorrencia].getValorDesconto()
 
     def __calcularIdadeDependente(self):
         quantidadeMenores = 0
         for dependente in range(len(self.listarDependente())):
-            if (date.today().year - self.__dependente[dependente].getDataNascimento().year) < 18:
+            dataAtual = datetime.now()
+            dataNascimento = self.listarDependente()[dependente].getDataNascimento()
+            idade = dataAtual.year - dataNascimento.year - (
+                    (dataAtual.month, dataAtual.day) < (dataNascimento.month, dataNascimento.day))
+            if idade < 18:
                 quantidadeMenores += 1
         return quantidadeMenores
 
     def calcularSalarioLiquido(self, mes, ano):
-        return self.__cargo.getSalarioBruto() + self.__calcularOcorrencia(mes, ano) + (self.__calcularIdadeDependente() * 100)
+        return self.__cargo.getSalarioBruto() + self.__calcularOcorrencia(mes, ano) + (
+                    self.__calcularIdadeDependente() * 100)
 
-    def __calcularProximoAniversario(self):
+    def __proximoAniversario(self):
         for dependente in range(len(self.listarDependente())):
+            dataAtual = datetime.now()
             dataNascimento = self.listarDependente()[dependente].getDataNascimento()
-            proximoAniversario = date.today().year, dataNascimento.month, dataNascimento().day
-            if proximoAniversario < date.today():
-                proximoAniversario = dataNascimento.day, dataNascimento.month, (date.today().year + 1)
-            diasParaAniversario = (proximoAniversario - date.today()).days
-            diasDaSemana = ["Segunda - Feira", "Terça - Feira", "Quarta - Feira", "Quinta - Feira", "Sexta - Feira", "Sábado", "Domingo"]
-        return (f"Próximo Aniversário: {proximoAniversario}"
-                f"Dias para o aniversário: {diasParaAniversario}"
-                f"Dia da semana: {diasDaSemana[proximoAniversario.weekday()]}")
+            proximoAniversario = datetime(dataAtual.year, dataNascimento.month, dataNascimento.day)
+            if proximoAniversario < dataAtual:
+                proximoAniversario = proximoAniversario.replace(year=dataAtual.year + 1)
+            diasParaAniversario = (proximoAniversario - dataAtual).days
+            proximoAniversarioStr = proximoAniversario.strftime("%d/%m/%y")
+            semana = ["Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado",
+                      "Domingo"]
+            return (f"Data do aniversário: {proximoAniversarioStr}"
+                    f"\nDias para o aniversário: {diasParaAniversario}"
+                    f"\nDia da semana: {semana[proximoAniversario.weekday()]}")
 
-    def toStrFuncionario(self, mes, ano):
-        return (f"Funcionário: {self.getNome()}"
-                f"\nSalário Liquido: {self.calcularSalarioLiquido(mes, ano)}")
-
-    def toStrDependente(self):
+    def toStr(self, mes, ano):
+        print(f"Funcionário:"
+              f"\nNome: {self.getNome()}"
+              f"\nSalário Liquido: {self.calcularSalarioLiquido(mes, ano)}\n"
+              f"\nDependentes:")
         for dependente in range(len(self.listarDependente())):
-            return (f"Dependente {dependente + 1}: {self.listarDependente()[dependente].getNome()}"
-                    f"\nData de Nascimento: {self.listarDependente()[dependente].strDataNascimento()}"
-                    f"\n{self.__calcularProximoAniversario()}")
+            print(f"Dependente {dependente + 1}: {self.listarDependente()[dependente].getNome()}"
+                  f"\nData de Nascimento: {self.listarDependente()[dependente].strDataNascimento()}"
+                  f"\n{self.__proximoAniversario()}\n")
